@@ -1,0 +1,59 @@
+type: custom:apexcharts-card
+experimental:
+  color_threshold: true
+graph_span: 23h
+header:
+  title: Electriciteitsprijzen Vandaag (€/kwh)
+  show: true
+span:
+  start: day
+now:
+  show: true
+  label: Now
+series:
+  - entity: sensor.zonneplan_current_electricity_tariff
+    type: column
+    show:
+      extremas: true
+    float_precision: 3
+    data_generator: |
+      return entity.attributes.forecast.map((forecast, index) => {
+        return [forecast.datetime, forecast.electricity_price / 10000000];
+      });
+    color_threshold:
+      - value: 0
+        color: '#04822e'
+      - value: 0.1
+        color: '#12A141'
+      - value: 0.15
+        color: '#79B92C'
+      - value: 0.2
+        color: '#C4D81D'
+      - value: 0.25
+        color: '#F3DC0C'
+      - value: 0.3
+        color: '#F4C616'
+      - value: 0.35
+        color: '#EFA51E'
+      - value: 0.4
+        color: '#EA8523'
+      - value: 0.45
+        color: '#E76821'
+      - value: 0.5
+        color: '#E33F20'
+      - value: 0.55
+        color: '#DC182F'
+yaxis:
+  - id: '1'
+    min: ~0
+    align_to: 0.1
+    decimals: 2
+    apex_config:
+      title:
+        text: €/kWh
+      tickAmount: 6
+apex_config:
+  xaxis:
+    type: datetime
+    tooltip:
+      enabled: false
